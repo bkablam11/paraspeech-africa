@@ -1,0 +1,33 @@
+# Données lourdes (stockées localement ou sur Google Drive)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Fichiers audio/vidéo volumineux
+*.mp4
+*.m4a
+*.wav
+*.mp3
+*.flac
+
+# Modèles et checkpoints ML/DL lourds
+*.pt
+*.pth
+*.onnx
+*.bin
+*.joblib
+
+# Fichiers Python / Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.env
+.venv/
+env/
+venv/
+
+# Système
+.DS_Store
+Thumbs.db
