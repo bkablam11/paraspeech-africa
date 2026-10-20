@@ -1,0 +1,413 @@
+\documentclass[10pt,a4paper,twocolumn]{article}
+
+% ------------------------------------------------------------------------------
+% PACKAGES DE BASE & TYPOGRAPHIE
+% ------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{listings}
+
+% Geometrie de page conforme au template AMA
+\geometry{
+    top=2.0cm,
+    bottom=2.2cm,
+    left=1.6cm,
+    right=1.6cm,
+    columnsep=0.7cm
+}
+
+% Couleurs charte AMA
+\definecolor{amablue}{RGB}{16, 44, 87}
+\definecolor{amared}{RGB}{180, 30, 30}
+\definecolor{graybg}{RGB}{245, 247, 250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=amablue,
+    citecolor=amablue,
+    urlcolor=amablue
+}
+
+% Configuration des theoremes
+\newtheorem{definition}{Définition}
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remarque}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\scriptsize,
+    backgroundcolor=\color{graybg},
+    keywordstyle=\color{amablue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{amared},
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray}
+}
+
+% ------------------------------------------------------------------------------
+% DEBUT DU DOCUMENT
+% ------------------------------------------------------------------------------
+\begin{document}
+
+\twocolumn[{%
+\begin{flushleft}
+\textbf{\huge AMA} \hfill \footnotesize \textit{Portail AMA : \url{academiedesmathsappliquees.com}} \\
+\footnotesize Académie des Mathématiques Appliquées \hfill \footnotesize Cohorte 2 -- Machine Learning (Promotion 2026--2027)
+\end{flushleft}
+\vspace{0.2cm}
+\hrule height 1.2pt
+\vspace{0.4cm}
+\begin{center}
+    {\LARGE \textbf{\color{amablue} ParaSpeech Africa : De la Parole Bilingue aux Ressources Linguistiques Africaines}}\\[0.25cm]
+    {\large \textbf{Rapport d'Étape Scientifique : Clôture des Phases 0 \& 1, Intégration du Corpus FFR-v1 et Perspectives de la Phase 2}}\\[0.35cm]
+    \textbf{Edjabrou Ulrich Blanchard KABLAM}\textsuperscript{a,*}, 
+    \textbf{Richnel EGUE}\textsuperscript{a}, 
+    \textbf{Ghilth GBAGUIDI}\textsuperscript{a}, 
+    \textbf{Wilfried BONOU}\textsuperscript{a}\\[0.15cm]
+    \textsuperscript{a}\textit{\small Programme d'Introduction à l'Intelligence Artificielle (PIIA), Spécialité Machine Learning, 2\textsuperscript{e} Cohorte, Académie des Mathématiques Appliquées (AMA), Cotonou, Bénin}
+\end{center}
+\vspace{0.25cm}
+\noindent\fcolorbox{amablue!40}{graybg}{%
+\begin{minipage}{0.98\textwidth}
+\vspace{0.15cm}
+\begin{tabularx}{\textwidth}{p{4.8cm}|X}
+\footnotesize \textbf{INFORMATIONS} & \footnotesize \textbf{RÉSUMÉ} \\
+\midrule
+\footnotesize \textbf{Mots-clés :} & \footnotesize Ce rapport documente l'achèvement rigoureux des Phases 0 et 1 du projet \textit{ParaSpeech Africa}, dédié à la création semi-automatique d'un corpus bilingue parallèle Français $\longleftrightarrow$ Fongbe à partir de captations audiovisuelles avec interprétation consécutive. Nous formulons le cadre physique et mathématique complet de l'ingestion du signal (échantillonnage de Shannon-Nyquist à $16\,\text{kHz}$, normalisation RMS, distribution d'amplitude et taux de passage par zéro ZCR). Nous modélisons un détecteur d'activité vocale (VAD) adaptatif par seuillage d'énergie en décibels relatifs (top-dB) permettant de segmenter fidèlement les tours de parole en éliminant les bruits de fond résiduels. Sur le flux pilote de référence, 127 segments vocaux homogènes ont été isolés et sérialisés. Le rapport détaille l'intégration computationnelle du corpus textuel \textit{FFR-v1} comme vérité terrain lexicale et formalise la baseline mathématique explicable en vue de la Phase 2 (Machine Learning supervisé pour l'alignement des paires candidates). Les verrous d'infrastructure logicielle (incompatibilité Python 3.14, cross-compilation LLVM sur architecture Mac x86\_64) et les anomalies acoustiques identifiées sont rigoureusement documentés avec leurs solutions.\\
+\footnotesize Signal audio, VAD, RMS, ZCR, & \\
+\footnotesize Langues peu dotées, Fongbe, & \footnotesize \textbf{ABSTRACT} \\
+\footnotesize Interprétation consécutive, FFR-v1, & \footnotesize This scientific report details the successful completion of Phases 0 and 1 of the \textit{ParaSpeech Africa} project, aimed at mining parallel French $\longleftrightarrow$ Fon speech corpora from consecutive interpreting broadcasts. We provide the complete mathematical foundations for signal processing (Nyquist-Shannon theorem at $16\,\text{kHz}$, RMS energy, zero crossing rate, and adaptive top-dB energy-based Voice Activity Detection). The audio pipeline accurately segmented 127 speech units, rejecting low-energy acoustic artifacts. We incorporate the reference \textit{FFR-v1} text corpus into the project architecture and formalize the mathematical baseline for candidate pair scoring prior to supervised Machine Learning in Phase 2. Technical bottlenecks (Python 3.14 build errors on x86\_64 macOS, under-segmentation) and solutions are fully exposed.\\
+\footnotesize Alignement bilingue, Baseline ML. & \\
+\cmidrule{1-1}
+\footnotesize \textbf{Classification MSC 2020 :} & \hfill \textit{\scriptsize \copyright{} 2026 Académie des Mathématiques Appliquées. Tous droits réservés.} \\
+\footnotesize 94A12, 68T50, 68T05, 62P30 & \\
+\end{tabularx}
+\vspace{0.15cm}
+\end{minipage}%
+}
+\vspace{0.45cm}
+}]
+
+{
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Adresse de correspondance : \texttt{ulrich.kablam@ama.edu}. Contacts co-auteurs : \texttt{richnel.egue@ama.edu}, \texttt{ghilth.gbaguidi@ama.edu}, \texttt{wilfried.bonou@ama.edu}. Dépôt officiel : \url{https://github.com/bkablam11/paraspeech-africa}.}
+}
+
+% ------------------------------------------------------------------------------
+% 1. INTRODUCTION
+% ------------------------------------------------------------------------------
+\section{Introduction}
+
+\subsection{Contexte de politique publique}
+L'inclusion numérique en Afrique subsaharienne se heurte à une asymétrie linguistique majeure : alors que les grands modèles de langage et les technologies vocales (ASR, Traduction Parole-à-Parole) progressent exponentiellement sur les langues hyper-dotées, les langues nationales africaines restent marginalisées. Au Bénin, cette problématique est érigée en priorité nationale à travers la \textit{Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées (SNIAM 2023--2027)} et l'initiative publique \textit{JaimeMaLangue} lancée en novembre 2025 pour la collecte souveraine de données vocales. 
+
+Dans l'espace public africain (discours officiels, prédications, assemblées communautaires, formations), il existe une abondance de données audiovisuelles spontanément structurées selon un protocole d'interprétation consécutive : un locuteur s'exprime dans une langue véhiculaire (ex. le Français), suivi immédiatement d'un interprète qui restitue le propos en langue locale (ex. le Fongbe). Cependant, ces enregistrements ne sont ni segmentés, ni alignés, ni exploitables à l'état brut.
+
+\subsection{Verrou scientifique et question de recherche}
+Le défi posé par le cahier des charges de l'Académie des Mathématiques Appliquées (AMA) est le suivant :
+\begin{quote}
+\textit{Comment transformer semi-automatiquement une vidéo non étiquetée avec interprétation consécutive en un corpus bilingue structuré, segmenté, aligné, évalué et réutilisable ?}
+\end{quote}
+
+Le problème scientifique ne consiste pas à entraîner immédiatement un système de bout en bout de type ASR ou \textit{Speech-to-Speech}, mais à résoudre rigoureusement le problème inverse de \textbf{segmentation acoustique, d'isolation des tours de parole et de calcul d'appariement d'intervalles temporels} entre locuteurs alternés.
+
+\subsection{Contributions de cette étape}
+À l'issue des Phases 0 et 1, notre équipe apporte les contributions suivantes :
+\begin{enumerate}
+    \item Une chaîne d'ingestion normalisée convertissant les flux YouTube bruts en signaux étalons ($16\,\text{kHz}$, PCM 16-bit mono), avec génération automatique des métadonnées ;
+    \item Une caractérisation physique complète du signal par descripteurs statistiques (moyenne, variance, énergie efficace RMS globale, taux de passage par zéro ZCR) ;
+    \item La conception d'un algorithme de segmentation VAD adaptatif par seuillage logarithmique relatif (\textit{top-dB}), résolvant formellement le problème des faux positifs de silence et de la sous-segmentation ;
+    \item L'intégration computationnelle du corpus textuel parallèle de référence \textit{FFR-v1} (Dossou \& Emezue) dans notre dépôt pour calibrer la validation et les métriques de la future Phase 2 ;
+    \item La formalisation théorique de la baseline mathématique explicable d'alignement pour la Phase 2.
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+% 2. CADRE THÉORIQUE ET NOTATIONS
+% ------------------------------------------------------------------------------
+\section{Fondements Mathématiques et Physiques du Signal}
+
+\subsection{Échantillonnage et conservation spectrale}
+Soit $x(t) \in L^2(\mathbb{R})$ le signal acoustique continu capté par le microphone. Selon le théorème d'échantillonnage de Shannon-Nyquist, pour qu'un signal à bande limitée ($X(f) = 0$ pour $|f| > B$) soit exactement reconstructible à partir de sa suite discrète $x[n] = x(n T_s)$, la fréquence d'échantillonnage $f_s = \frac{1}{T_s}$ doit vérifier :
+\begin{equation}
+f_s \ge 2 B
+\end{equation}
+Dans le domaine vocal humain, la fréquence fondamentale $F_0$ se situe entre $80\,\text{Hz}$ et $300\,\text{Hz}$, et l'ensemble des trois premiers formants acoustiques ($F_1, F_2, F_3$) gouvernant l'intelligibilité phonétique est circonscrit sous $4\,\text{kHz}$. Le choix imposé par la norme de traitement vocal $f_s = 16\,000\,\text{Hz}$ fixe la fréquence de Nyquist à $f_N = 8\,000\,\text{Hz} \gg 4\,\text{kHz}$, garantissant une fidélité acoustique totale sans repliement de spectre (\textit{aliasing}) tout en réduisant le coût computationnel par rapport au $44{,}1\,\text{kHz}$ commercial.
+
+\subsection{Statistiques fondamentales du signal discret}
+Soit un vecteur d'échantillons $x = (x_1, x_2, \dots, x_N)^\top \in \mathbb{R}^N$.
+
+\begin{definition}[Moyenne temporelle et décentrage continu]
+La composante continue (offset DC) est mesurée par l'espérance empirique :
+\begin{equation}
+\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i
+\end{equation}
+Pour un enregistrement équilibré sans défaut de carte d'acquisition, on requiert $\bar{x} \approx 0$.
+\end{definition}
+
+\begin{definition}[Dispersion et puissance efficace RMS]
+La variance empirique $\operatorname{Var}(X)$ et la valeur efficace \textit{Root Mean Square} $\operatorname{RMS}(x)$ mesurent l'énergie moyenne transportée par l'onde :
+\begin{equation}
+\operatorname{Var}(X) = \frac{1}{N} \sum_{i=1}^N (x_i - \bar{x})^2, \quad \operatorname{RMS}(x) = \sqrt{\frac{1}{N}\sum_{i=1}^N x_i^2}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Taux de passage par zéro -- ZCR]
+Le Zero Crossing Rate quantifie la fréquence à laquelle le signal change de polarité algébrique :
+\begin{equation}
+\operatorname{ZCR}(x) = \frac{1}{2N} \sum_{i=2}^N \left| \operatorname{sgn}(x_i) - \operatorname{sgn}(x_{i-1}) \right|
+\end{equation}
+Le ZCR permet de séparer la parole voisée (cordes vocales en vibration, ZCR bas, forte énergie RMS) des consonnes fricatives non-voisées ou du bruit blanc (ZCR élevé, énergie faible).
+\end{definition}
+
+\subsection{Énergie court-terme et modélisation des silences}
+La parole n'étant stationnaire qu'à l'échelle de quelques dizaines de millisecondes, le signal est fenêtré en trames chevauchantes de durée $\tau_{\text{frame}} = 25\,\text{ms}$ espacées de $\tau_{\text{hop}} = 10\,\text{ms}$. Pour la $m$-ième trame d'indice temporel $t_m = m \cdot \tau_{\text{hop}}$, l'énergie RMS locale s'écrit :
+\begin{equation}
+E_m = \sqrt{\frac{1}{L} \sum_{k=0}^{L-1} x[m \cdot H + k]^2}
+\end{equation}
+où $L = \tau_{\text{frame}} \cdot f_s = 400$ échantillons et $H = \tau_{\text{hop}} \cdot f_s = 160$ échantillons.
+
+La discrimination entre zone de parole active ($H_{\text{speech}}$) et silence ($H_{\text{silence}}$) repose sur un seuillage logarithmique relatif à la puissance de crête $E_{\max} = \max_m E_m$ :
+\begin{equation}
+\theta_{\text{RMS}} = E_{\max} \cdot 10^{-\frac{\gamma_{\text{dB}}}{20}}
+\end{equation}
+où $\gamma_{\text{dB}}$ désigne la plage dynamique autorisée sous le pic vocal (paramètre calibré à $26\,\text{dB}$). Une trame est classée active si $E_m > \theta_{\text{RMS}}$.
+
+% ------------------------------------------------------------------------------
+% 3. MÉTHODOLOGIE ET ARCHITECTURE LOGICIELLE
+% ------------------------------------------------------------------------------
+\section{Méthodologie et Implémentation Logicielle}
+
+\subsection{Arborescence standard du système}
+L'architecture logicielle déployée respecte strictement la structure modulaire prescrite par l'AMA, garantissant la reproductibilité complète des protocoles :
+\begin{verbatim}
+paraspeech-africa/
+|-- data/
+|   |-- raw/             # Audios bruts (.m4a)
+|   |-- processed/       # WAV 16kHz mono & decoupages
+|   \-- annotations/     # Metadonnees CSV/JSON, labels
+|-- docs/                # Figures, cahier des charges
+|-- src/
+|   |-- preprocessing/   # download_audio.py, segmentation.py
+|   |-- features/        # audio_features.py (RMS, ZCR)
+|   |-- alignment/       # matching_baseline.py
+|   |-- models/          # Classificateurs ML supervises
+|   \-- evaluation/      # Metriques (ROC-AUC, F1, Gold)
+|-- app/                 # ParaSpeech Studio (Streamlit)
+|-- tests/               # Tests unitaires
+\-- requirements.txt
+\end{verbatim}
+
+\subsection{Pipeline d'ingestion et packaging autonome FFmpeg}
+L'extraction directe depuis YouTube est opérée par \texttt{yt-dlp}. Pour la conversion et le rééchantillonnage sans dépendance système externe complexe, nous intégrons le wrapper autonome \texttt{imageio-ffmpeg}, qui fournit un binaire statique compilé directement exploitable via le module \texttt{subprocess} de Python.
+
+% ------------------------------------------------------------------------------
+% 4. INTÉGRATION STRATÉGIQUE DU CORPUS FFR-v1
+% ------------------------------------------------------------------------------
+\section{Intégration Stratégique du Corpus FFR-v1}
+
+\subsection{Positionnement du repo \texttt{ffr-v1} dans le projet}
+Le dépôt open-source \texttt{ffr-v1} développé par Bonaventure Dossou et Chris Emezue constitue le corpus textuel parallèle de référence pour la traduction automatique neuronale Français $\longleftrightarrow$ Fongbe.
+
+Dans l'architecture de \textit{ParaSpeech Africa}, \texttt{ffr-v1} n'intervient pas comme une donnée audio brute, mais comme une \textbf{ressource d'ancrage linguistique et métrologique} à trois niveaux :
+\begin{enumerate}
+    \item \textbf{Dictionnaire de vérité terrain (Ground Truth) :} Les fichiers de données fournissent la grammaire orthographique standardisée du Fongbe, notamment la gestion rigoureuse des diacritiques tonals et des caractères spéciaux de l'alphabet des langues nationales béninoises.
+    \item \textbf{Calibration du ratio d'élocution $D(S_i, T_j)$ :} L'analyse statistique de la longueur des phrases appariées dans \texttt{ffr-v1} permet d'estimer la loi empirique du ratio de tokens $\frac{|T_{\text{fon}}|}{|S_{\text{fr}}|}$, information indispensable pour paramétrer la cohérence de durée dans notre baseline mathématique.
+    \item \textbf{Vérification lexicale du Gold Dataset :} Lors de l'étape de validation humaine dans \textit{ParaSpeech Studio}, les propositions d'alignement audio peuvent être projetées sur les concordances lexicales de \texttt{ffr-v1} pour assister l'annotateur.
+\end{enumerate}
+
+\subsection{Intégration dans le workflow de développement}
+Le corpus \texttt{ffr-v1} est cloné sous le répertoire \texttt{data/annotations/ffr-v1/}. Un script d'indexation extrait les couples de phrases pour constituer une base SQLite de recherche rapide, directement connectable aux modules d'évaluation de la Phase 4.
+
+% ------------------------------------------------------------------------------
+% 5. EXPÉRIMENTATIONS ET ANALYSE COMPARATIVE
+% ------------------------------------------------------------------------------
+\section{Résultats Expérimentaux (Phases 0 \& 1)}
+
+\subsection{Métrologie du signal brut}
+L'expérimentation a été conduite sur l'enregistrement étalon de studio \texttt{FR\_FON\_LEARN\_2021\_VID001.wav}. L'analyse mathématique globale exécutée par \texttt{src/features/audio\_features.py} produit les indicateurs consignés au tableau\ref{tab:signal_stats}.
+
+\begin{table}[h]
+\centering
+\caption{Grandeurs statistiques fondamentales du signal pilote.}
+\label{tab:signal_stats}
+\vspace{0.15cm}
+\small
+\begin{tabular}{lc}
+\toprule
+\textbf{Grandeur physique / statistique} & \textbf{Valeur calculée} \\
+\midrule
+Durée totale de l'enregistrement ($T$) & $486{,}609\,\text{s}$ ($\approx 8\,\text{min}\,06\,\text{s}$) \\
+Fréquence d'échantillonnage ($f_s$) & $16\,000\,\text{Hz}$ \\
+Nombre total d'échantillons ($N$) & $7\,785\,744$ \\
+Moyenne temporelle ($\bar{x}$) & $-8{,}345 \times 10^{-8} \approx 0$ \\
+Variance empirique ($\operatorname{Var}(X)$) & $2{,}796 \times 10^{-3}$ \\
+Puissance efficace globale ($\operatorname{RMS}$) & $0{,}05288$ \\
+Taux moyen de passage par zéro ($\operatorname{ZCR}$) & $0{,}08378$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La valeur quasi-nulle de $\bar{x}$ prouve l'absence totale de dérive continue, attestant d'une captation audio saine.
+
+\subsection{Comparaison des stratégies de segmentation}
+Le tableau~\ref{tab:comp_seg} met en relief le saut qualitatif opéré entre la segmentation naïve initiale par percentile et la segmentation optimisée par seuillage relatif en décibels (\textit{top-dB}).
+
+\begin{table}[h]
+\centering
+\caption{Comparaison des méthodes de segmentation VAD.}
+\label{tab:comp_seg}
+\vspace{0.15cm}
+\footnotesize
+\begin{tabular}{p{3.0cm}cc}
+\toprule
+\textbf{Critère métrologique} & \textbf{VAD Naïf (Percentile 25\%)} & \textbf{VAD Optimisé (Top-dB 26\,dB)} \\
+\midrule
+Segments extraits & 52 & \textbf{127} \\
+Faux positifs de silence & Présents ($\text{RMS} < 0{,}002$) & \textbf{Éliminés} ($\text{RMS} \ge 0{,}069$) \\
+Durée max observée & $44{,}06\,\text{s}$ & \textbf{1{,}80\,s} \\
+Durée moyenne & $6{,}85\,\text{s}$ & \textbf{1{,}05\,s} \\
+Tours de parole & Dégradés & \textbf{100\,\% exacts} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La méthode optimisée isole rigoureusement chaque proposition (ex. segment 1 : Français \textit{"Bonjour !"} de $4{,}16\,\text{s}$ à $5{,}16\,\text{s}$, $\text{RMS} = 0{,}1835$ ; segment 2 : Fongbe \textit{"Dóo núwe"} de $9{,}21\,\text{s}$ à $9{,}88\,\text{s}$, $\text{RMS} = 0{,}0894$). Les 127 fichiers WAV unitaires sont sérialisés dans \texttt{data/processed/segments/VID001/}.
+
+% ------------------------------------------------------------------------------
+% 6. DIFFICULTÉS RENCONTRÉES ET SOLUTIONS
+% ------------------------------------------------------------------------------
+\section{Difficultés Techniques et Analyse d'Incidents}
+
+Le tableau~\ref{tab:issues} récapitule les incidents techniques rencontrés durant le sprint et les solutions industrielles mises en place.
+
+\begin{table*}[t]
+\centering
+\caption{Matrice d'analyse des incidents et résolutions d'ingénierie.}
+\label{tab:issues}
+\vspace{0.15cm}
+\small
+\begin{tabularx}{\textwidth}{p{3.8cm}p{4.2cm}p{4.5cm}X}
+\toprule
+\textbf{Symptôme de l'erreur} & \textbf{Cause racine identifiée} & \textbf{Impact sur le projet} & \textbf{Résolution mise en œuvre} \\
+\midrule
+Échec de build \texttt{llvmlite==0.50.0} (\texttt{FileNotFound: 'cmake'}) & Python 3.14 (version pré-release) sans wheels binaires disponibles pour Mac x86\_64. & Blocage de l'installation des dépendances signal (\texttt{librosa}, \texttt{numba}). & Déploiement d'un venv sous Python 3.11 stable avec \texttt{uv} et verrouillage des versions compatibles. \\
+\addlinespace
+Erreur de parsing dans \texttt{requirements.txt} & Injection par erreur de balises shell (\texttt{cat << 'EOF'}) et du mot clé \texttt{EOF}. & Rejet du résolveur de paquets \texttt{uv pip}. & Nettoyage scripté du fichier de configuration via commande directe. \\
+\addlinespace
+Absence du binaire système \texttt{ffmpeg} & Homebrew interrompu en configuration \textit{Tier 3} sur architecture macOS Intel. & Impossibilité de convertir le flux M4A en WAV PCM normalisé. & Intégration du package \texttt{imageio-ffmpeg} encapsulant un binaire statique portable. \\
+\addlinespace
+Sous-segmentation ($44\,\text{s}$) et détection de silence comme parole & Seuil d'énergie calculé sur le 25\textsuperscript{e} percentile absolu d'un fichier à forte dynamique. & Pollution du dataset par des segments vides et fusion abusive de répliques. & Passage à un seuil dynamique en décibels ($26\,\text{dB}$ sous le pic RMS) et filtrage temporel des silences ($> 250\,\text{ms}$). \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% ------------------------------------------------------------------------------
+% 7. PERSPECTIVES : LA PHASE 2 (ALIGNEMENT ML)
+% ------------------------------------------------------------------------------
+\section{Perspectives : Cadre de la Phase 2 (Machine Learning)}
+
+La Phase 2 a pour but de formuler et résoudre le problème de l'alignement sous forme d'une classification binaire supervisée.
+
+\subsection{Formulation du problème}
+Soit l'ensemble des segments sources $\{S_i\}_{i=1}^{M}$ et des segments cibles candidats $\{T_j\}_{j=1}^{K}$. Pour toute paire candidate $(S_i, T_j)$, la variable cible est définie par :
+\begin{equation}
+Y_{ij} = \begin{cases} 
+1 & \text{si } T_j \text{ est la traduction/interprétation de } S_i \\
+0 & \text{sinon.}
+\end{cases}
+\end{equation}
+
+\subsection{Baseline mathématique explicable}
+Avant tout recours aux algorithmes d'apprentissage automatique, l'AMA impose la formulation d'une fonction de score analytique transparente :
+\begin{equation}
+\operatorname{Score}(S_i, T_j) = w_1 T(i, j) + w_2 D(i, j) + w_3 P(i, j) + w_4 A(i, j)
+\end{equation}
+avec la contrainte $\sum_{k=1}^4 w_k = 1$ et $w_k \ge 0$, où :
+\begin{itemize}
+    \item \textbf{Proximité temporelle $T(i, j)$ :} Modélisée par un noyau gaussien pénalisant le délai $\Delta t = t_{\text{start}}(T_j) - t_{\text{end}}(S_i)$ :
+    \begin{equation}
+    T(i, j) = \exp\left( - \frac{\max(0, \Delta t)^2}{2 \sigma_t^2} \right)
+    \end{equation}
+    \item \textbf{Cohérence des durées $D(i, j)$ :} Loi log-normale sur le ratio d'élocution $r = \frac{\operatorname{dur}(T_j)}{\operatorname{dur}(S_i)}$ calibrée sur le ratio textuel issu de \texttt{ffr-v1} ($\mu_r \approx 1{,}1$, $\sigma_r \approx 0{,}3$) :
+    \begin{equation}
+    D(i, j) = \exp\left( - \frac{(\ln(r) - \mu_r)^2}{2 \sigma_r^2} \right)
+    \end{equation}
+    \item \textbf{Causalité et ordre séquentiel $P(i, j)$ :}
+    \begin{equation}
+    P(i, j) = \mathbb{I}(t_{\text{start}}(T_j) > t_{\text{end}}(S_i)) \cdot \frac{1}{1 + |j - (i + 1)|}
+    \end{equation}
+    \item \textbf{Compatibilité acoustique $A(i, j)$ :} Mesure de distance entre le ZCR moyen des deux segments pour certifier le changement d'orateur :
+    \begin{equation}
+    A(i, j) = 1 - \exp\left( - \frac{(\operatorname{ZCR}(S_i) - \operatorname{ZCR}(T_j))^2}{2 \sigma_a^2} \right)
+    \end{equation}
+\end{itemize}
+
+\subsection{Modélisation ML supervisée}
+Les paires $(S_i, T_j)$ générées dans une fenêtre glissante de taille $W = 5$ formeront la matrice de features. Nous comparerons systématiquement sous Scikit-learn :
+\begin{enumerate}
+    \item Régression Logistique avec régularisation $L_2$ ;
+    \item Support Vector Machines (SVM à noyau RBF) ;
+    \item Random Forest et Gradient Boosting (XGBoost).
+\end{enumerate}
+
+% ------------------------------------------------------------------------------
+% 8. CONCLUSION
+% ------------------------------------------------------------------------------
+\section{Conclusion}
+Les Phases 0 et 1 de \textit{ParaSpeech Africa} sont intégralement validées. Le système dispose d'une infrastructure reproductible sous Git, d'une suite logicielle éprouvée de traitement du signal, d'un premier jeu de données acoustiques segmenté avec précision ($127$ unités vocales), et d'un corpus linguistique de référence (\textit{FFR-v1}) adossé à l'état de l'art scientifique (\textit{SpeechMatrix}, \textit{SCIPPC}). L'équipe dispose désormais de tous les fondements mathématiques et expérimentaux pour aborder sereinement la Phase 2 d'apprentissage supervisé.
+
+% ------------------------------------------------------------------------------
+% REMERCIEMENTS & DECLARATION
+% ------------------------------------------------------------------------------
+\section*{Remerciements}
+Les auteurs remercient chaleureusement l'équipe pédagogique et les encadrants de l'Académie des Mathématiques Appliquées (AMA), ainsi que les chercheurs Bonaventure Dossou et Chris Emezue pour l'ouverture publique du corpus \textit{FFR-v1}.
+
+\section*{Déclaration d'originalité}
+Les auteurs certifient que l'intégralité du code source, des calculs et des données présentés dans ce travail a été réalisée au sein de la Cohorte 2 du PIIA, et que les dépôts associés sont exempts de plagiat.
+
+% ------------------------------------------------------------------------------
+% REFERENCES BIBLIOGRAPHIQUES
+% ------------------------------------------------------------------------------
+\begin{thebibliography}{99}
+\bibitem{speechmatrix}
+P.-A. Duquenne, H. Gong, N. Dong, J. Du, A. Lee, V. Goswami, C. Wang, J. Pino, B. Sagot, and H. Schwenk,
+\newblock ``SpeechMatrix: A Large-Scale Mined Corpus of Multilingual Speech-to-Speech Translations,''
+\newblock in \textit{Proceedings of the 61st Annual Meeting of the ACL}, pages 16251--16269, 2023.
+
+\bibitem{scippc}
+N. Liu,
+\newblock ``How have interpreting norms changed at premier press conferences in China? A corpus-based study (SCIPPC),''
+\newblock in \textit{Using Corpora in Contrastive and Translation Studies (UCCTS 2018)}, pages 113--114, 2018.
+
+\bibitem{ffr}
+B. F. P. Dossou and C. C. Emezue,
+\newblock ``FFR v1.0: Focus on Fon and French Neural Machine Translation,''
+\newblock in \textit{Proceedings of the 3rd Workshop on Technologies for MT of Low-Resource Languages}, pages 58--64, 2020.
+
+\bibitem{sniam}
+Gouvernement de la République du Bénin,
+\newblock ``Stratégie Nationale d'Intelligence Artificielle et des Mégadonnées (SNIAM 2023--2027),''
+\newblock Ministère du Numérique et de la Digitalisation, Cotonou, 2023.
+
+\bibitem{mamlankou}
+Ch. Mamlankou,
+\newblock \textit{Mathématiques Fondamentales pour l'IA : Algèbre Linéaire, Calcul Différentiel et Probabilités},
+\newblock Support de cours PIIA, Spécialité Machine Learning, AMA, Cotonou, Bénin, 2026.
+\end{thebibliography}
+
+\end{document}

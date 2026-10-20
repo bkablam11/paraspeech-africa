@@ -1,20 +1,14 @@
-# Signal & Audio
-librosa>=0.10.1
-soundfile>=0.12.1
-numpy>=1.24.0
-scipy>=1.11.0
-
-# Traitement de données & Visualisation
 pandas>=2.1.0
-matplotlib>=3.8.0
-seaborn>=0.13.0
-
-# Machine Learning classique
-scikit-learn>=1.3.0
-
-# Application
-streamlit>=1.30.0
-
-# Téléchargement & Utilitaires
+numpy>=1.24.0,<2.0.0
+scipy>=1.11.0
+soundfile>=0.12.1
 yt-dlp>=2024.03.10
 tqdm>=4.66.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+llvmlite<0.44
+numba<0.60
+librosa>=0.10.1
+scikit-learn>=1.3.0
+streamlit>=1.30.0
+imageio-ffmpeg==0.6.0

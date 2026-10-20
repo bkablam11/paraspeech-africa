@@ -1,0 +1,3 @@
+video_id,filename,url,lang_pair,domain,duration_seconds,sample_rate,channels,format
+VID001,FR_FON_LEARN_2021_VID001.wav,https://www.youtube.com/watch?v=nlD2t9IHQa0,FR_FON,LEARN,486.61,16000,1,WAV
+VID002,FR_FON_RELIGION_2020_VID002.wav,https://www.youtube.com/watch?v=B9UGheA6thk,FR_FON,RELIGION,99.37,16000,1,WAV
